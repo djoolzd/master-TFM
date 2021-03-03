@@ -1,0 +1,40 @@
+---
+version: '2'
+services:
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+
+
+      
+     
+  #lstash01:
+    #image: docker.elastic.co/logstash/logstash:7.11.1
+    # container_name: lst01
+     #volumes:
+      # - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      # - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      # - /var/log/GDPR/myapplication:/var/log/GDPR/myapplication:ro
+    # ports:
+     #  - "5000:5000"
+    # environment:
+      # LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+     #depends_on:
+      # - es01
+      # - es01
+
+volumes:
+  data01:
+    driver: local
+  data02:
+    driver: local
+  data03:
+    driver: local
+  mongodb_data_container:
