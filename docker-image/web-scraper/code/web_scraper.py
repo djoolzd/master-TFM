@@ -42,5 +42,5 @@ for fondo in codigos_fondos:
     print(json_data)
     producer = KafkaProducer(bootstrap_servers='broker:29092')
     ##for _ in range(100):
-    producer.send('vl',json_data.encode('utf-8'))
+    producer.send('vl2',json_data.encode('utf-8'))
 	producer.flush()
