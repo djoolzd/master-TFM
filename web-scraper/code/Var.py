@@ -2,7 +2,7 @@
 sc = spark.sparkContext
 
 # Lectura de los json historicos
-path = "hdfs://namenode:8020/usr/logstash/vl*.json"
+path = "hdfs://namenode:8020/user/logstash/logstash*.json"
 VLDF = spark.read.json(path)
 
 # visualizacion del schema
@@ -20,6 +20,6 @@ distinctVLDF.createOrReplaceTempView("VL")
 PL = spark.sql ("SELECT *,VL-VL_PREV as PL FROM (SELECT ISIN,VL_DATE, VL, LAG(VL,1) OVER (PARTITION BY ISIN ORDER BY VL_DATE) AS VL_PREV FROM VL) where VL_PREV IS NOT NULL ORDER BY ISIN,PL ASC")  
 PL.createOrReplaceTempView("PL")
 
-PL=spark.sql ("SELECT ISIN,date_format(current_date(),'yyyy-MM-dd'),percentile_approx(PL,0.05,100) from PL GROUP BY ISIN")
+PL=spark.sql ("SELECT ISIN,date_format(current_date(),'yyyy-MM-dd')as DATE_VAR,percentile_approx(PL,0.05,100) as VAR from PL GROUP BY ISIN")
 
 PL.write.json("hdfs://namenode:8020/usr/logstash/VARFUNDOS.json")
